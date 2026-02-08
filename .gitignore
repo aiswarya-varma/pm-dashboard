@@ -47,9 +47,13 @@ vite.config.*.timestamp*
 test-output
 
 # Local environment files
+.env
 /apps/api/.env
 /apps/web/.env
 
 # Test files - tmp
 /apps/api-e2e
 /apps/web-e2e
+
+# Decision files - tmp
+decision.md
