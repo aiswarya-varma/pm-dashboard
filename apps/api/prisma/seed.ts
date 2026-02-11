@@ -48,7 +48,7 @@ async function main() {
     },
   });
 
-  const emptyProject = await prisma.project.create({
+  await prisma.project.create({
     data: {
       name: 'Empty Project',
       createdById: admin.id,

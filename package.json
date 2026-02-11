@@ -6,6 +6,7 @@
     "postinstall": "prisma generate --schema=apps/api/prisma/schema.prisma",
     "prisma:generate": "prisma generate --schema=apps/api/prisma/schema.prisma",
     "prisma:migrate": "prisma migrate dev --schema=apps/api/prisma/schema.prisma",
+    "prisma:seed": "ts-node apps/api/prisma/seed.ts",
     "serve:api": "nx serve api --output-style=stream"
   },
   "private": true,
