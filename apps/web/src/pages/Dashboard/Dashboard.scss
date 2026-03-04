@@ -1,1 +1,74 @@
 
+.dashboard {
+  padding: 24px;
+  font-family: sans-serif;
+}
+
+.dashboard__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+
+  h1 {
+    font-size: 20px;
+
+    span {
+      font-weight: bold;
+    }
+  }
+
+  .logout-btn {
+    padding: 8px 14px;
+    cursor: pointer;
+  }
+}
+
+.projects-section {
+  border-top: 1px solid #ddd;
+  padding-top: 16px;
+}
+
+.projects-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h2 {
+    margin: 0;
+  }
+
+  .create-project-btn {
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+}
+
+.project-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 16px;
+}
+
+.project-card {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  border: 1px solid #ccc;
+  margin-bottom: 8px;
+}
+
+.status {
+  &.active {
+    color: green;
+  }
+
+  &.archived {
+    color: gray;
+  }
+}
+
+.empty-state {
+  margin-top: 16px;
+  color: #666;
+}
