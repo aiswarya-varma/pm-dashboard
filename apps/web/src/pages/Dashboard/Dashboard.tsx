@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Dashboard.scss";
+import { api } from "../../services/api";
 
 type Project = {
   id: string;
   name: string;
   //status: "ACTIVE" | "ARCHIVED";
+};
+
+type ProjectsResponse = {
+  username: string;
+  projects: Project[];
 };
 
 const Dashboard = () => {
@@ -27,16 +33,10 @@ const Dashboard = () => {
 
   const fetchProjects = async (token: string) => {
     try {
-      const res = await fetch("http://localhost:3000/api/projects", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const data: ProjectsResponse = await api(
+        "/projects", 
+      );
 
-      if (!res.ok) throw new Error("Unauthorized");
-
-      const data = await res.json();
-      console.log("Fetched projects:", data);
       setUsername(data.username || "User");
       setProjects(data.projects || []);
     } catch (err) {

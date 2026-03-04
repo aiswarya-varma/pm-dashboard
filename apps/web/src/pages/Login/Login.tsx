@@ -1,6 +1,16 @@
 import { useEffect, useState } from 'react';
 import './Login.scss';
 import { useNavigate } from "react-router-dom";
+import { api } from '../../services/api';
+
+type LoginResponse = { 
+  accessToken: string; 
+  user: { 
+    id: string; 
+    email: string; 
+    role: string 
+  } 
+}
 
 export const Login = () => {
   const [email, setEmail] = useState('');
@@ -30,19 +40,15 @@ export const Login = () => {
     try {
       setIsLoading(true);
 
-      const res = await fetch('http://localhost:3000/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const data: LoginResponse = await api(
+        "/auth/login", 
+        { 
+          method: "POST", 
+          body: { email, password }, 
+          auth: false 
+        }
+      );
 
-      if (!res.ok) {
-        throw new Error('Login failed');
-      }
-
-      const data = await res.json();
       localStorage.setItem('accessToken', data.accessToken);
 
       navigate("/dashboard", { replace: true });
