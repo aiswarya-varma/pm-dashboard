@@ -1,84 +1,219 @@
+@use '../../styles/base.scss';
+
+// ─── Page ─────────────────────────────────────────────────────────
 .login-page {
   min-height: 100vh;
-  background: #f5f7fb;
+  background: var(--color-bg);
+  font-family: var(--font-sans);
+  color: var(--color-text-primary);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 24px;
+
+  &__inner {
+    width: 100%;
+    max-width: 360px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    animation: fadeUp var(--transition-slow) both;
+  }
 }
 
+// ─── Header ──────────────────────────────────────────────────────
 .login-header {
   text-align: center;
-  margin-bottom: 1.5rem;
 
-  h1 {
+  &__logo {
+    font-size: 20px;
+    color: var(--color-text-muted);
+    margin-bottom: 12px;
+  }
+
+  &__title {
+    margin: 0 0 6px;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--color-text-primary);
+  }
+
+  &__subtitle {
     margin: 0;
-    font-size: 1.8rem;
-  }
-
-  p {
-    color: #666;
-    margin-top: 0.25rem;
+    font-size: 14px;
+    color: var(--color-text-muted);
   }
 }
 
+// ─── Card ─────────────────────────────────────────────────────────
 .login-card {
-  background: #fff;
-  padding: 2rem;
-  width: 320px;
-  border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
 }
 
+// ─── Form ─────────────────────────────────────────────────────────
 .form-group {
   display: flex;
   flex-direction: column;
-  margin-bottom: 1rem;
+  gap: 6px;
+  margin-bottom: 16px;
 
   label {
-    font-size: 0.85rem;
-    margin-bottom: 0.25rem;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
   }
 
   input {
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    width: 100%;
+    height: 40px;
+    padding: 0 12px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--color-text-primary);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    transition: border-color var(--transition), background var(--transition);
+    outline: none;
+
+    &::placeholder {
+      color: var(--color-text-muted);
+    }
+
+    &:hover:not(:disabled) {
+      border-color: var(--color-border-hover);
+    }
 
     &:focus {
-      outline: none;
-      border-color: #5b7cfa;
+      border-color: var(--color-border-focus);
+      background: var(--color-surface);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &[aria-invalid="true"] {
+      border-color: var(--color-error-border);
     }
   }
 }
 
-.error-message {
-  background: #ffe5e5;
-  color: #a00;
-  padding: 0.5rem;
-  border-radius: 4px;
-  margin-bottom: 0.75rem;
-  font-size: 0.85rem;
-}
+// ─── Password wrapper ────────────────────────────────────────────
+.input-wrapper {
+  position: relative;
 
-button {
-  width: 100%;
-  padding: 0.6rem;
-  background: #5b7cfa;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  font-weight: 600;
-  cursor: pointer;
+  input {
+    padding-right: 56px;
+  }
 
-  &:disabled {
-    background: #aaa;
-    cursor: not-allowed;
+  &__toggle {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    padding: 0 12px;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: inherit;
+    color: var(--color-text-muted);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: color var(--transition);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+
+    &:hover {
+      color: var(--color-text-primary);
+    }
   }
 }
 
+// ─── Error ────────────────────────────────────────────────────────
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  background: var(--color-error-bg);
+  border: 1px solid var(--color-error-border);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--color-error);
+  animation: shake 250ms ease both;
+
+  &__icon {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1.5px solid currentColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+  }
+}
+
+// ─── Submit Button ───────────────────────────────────────────────
+.submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 40px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--color-bg);
+  background: var(--color-accent);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: opacity var(--transition), transform var(--transition);
+  margin-top: 4px;
+
+  &:hover:not(:disabled) {
+    opacity: 0.85;
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.99);
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  &__spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 600ms linear infinite;
+    flex-shrink: 0;
+  }
+}
+
+// ─── Footer ──────────────────────────────────────────────────────
 .login-footer {
-  margin-top: 1rem;
-  font-size: 0.8rem;
-  color: #777;
+  text-align: center;
+
+  p {
+    margin: 0;
+    font-size: 12px;
+    color: var(--color-text-muted);
+  }
 }

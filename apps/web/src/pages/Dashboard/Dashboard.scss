@@ -1,74 +1,378 @@
+@use '../../styles/base.scss';
 
+// ─── Layout ───────────────────────────────────────────────────────
 .dashboard {
-  padding: 24px;
-  font-family: sans-serif;
+  min-height: 100vh;
+  background: var(--color-bg);
+  font-family: var(--font-sans);
+  color: var(--color-text-primary);
+  display: grid;
+  grid-template-rows: auto 1fr;
 }
 
+// ─── Header ──────────────────────────────────────────────────────
 .dashboard__header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 32px;
+  padding: 0 32px;
+  height: 56px;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  backdrop-filter: blur(8px);
+}
 
-  h1 {
-    font-size: 20px;
+.dashboard__brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-text-primary);
+}
 
-    span {
-      font-weight: bold;
-    }
+.dashboard__logo {
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+.dashboard__brand-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.dashboard__nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+// ─── User Badge ───────────────────────────────────────────────────
+.user-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px 4px 4px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background: var(--color-accent-soft);
+  transition: background var(--transition);
+
+  &__avatar {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: var(--color-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    flex-shrink: 0;
   }
 
-  .logout-btn {
-    padding: 8px 14px;
-    cursor: pointer;
+  &__name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 
+// ─── Buttons ─────────────────────────────────────────────────────
+.logout-btn {
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition), background var(--transition);
+
+  &:hover {
+    color: var(--color-text-primary);
+    border-color: var(--color-border-hover);
+    background: var(--color-accent-soft);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.create-project-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--color-bg);
+  background: var(--color-accent);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: opacity var(--transition), transform var(--transition);
+  white-space: nowrap;
+
+  &:hover {
+    opacity: 0.85;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &--lg {
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: var(--radius-md);
+  }
+}
+
+// ─── Main Content ────────────────────────────────────────────────
+.dashboard__content {
+  max-width: 760px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+.dashboard__hero {
+  margin-bottom: 40px;
+
+  h1 {
+    font-size: clamp(22px, 3vw, 28px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin: 0 0 6px;
+    line-height: 1.2;
+  }
+}
+
+.dashboard__hero-name {
+  color: var(--color-text-secondary);
+}
+
+.dashboard__subtitle {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+// ─── Projects Section ────────────────────────────────────────────
 .projects-section {
-  border-top: 1px solid #ddd;
-  padding-top: 16px;
+  animation: fadeUp var(--transition-slow) both;
 }
 
 .projects-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 16px;
 
   h2 {
     margin: 0;
-  }
-
-  .create-project-btn {
-    padding: 6px 12px;
-    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
   }
 }
 
+// ─── Project List ────────────────────────────────────────────────
 .project-list {
   list-style: none;
   padding: 0;
-  margin-top: 16px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .project-card {
   display: flex;
-  justify-content: space-between;
-  padding: 12px;
-  border: 1px solid #ccc;
-  margin-bottom: 8px;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+  animation: fadeUp var(--transition-slow) both;
+
+  @for $i from 1 through 20 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{($i - 1) * 40}ms;
+    }
+  }
+
+  &:hover {
+    border-color: var(--color-border-hover);
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-card);
+  }
+
+  &__body {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-sm);
+    background: var(--color-accent-soft);
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-text-secondary);
+    flex-shrink: 0;
+
+    &--skeleton {
+      background: var(--color-border);
+    }
+  }
+
+  &__arrow {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity var(--transition), transform var(--transition);
+  }
+
+  &:hover &__arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  &--skeleton {
+    pointer-events: none;
+    cursor: default;
+
+    &:hover {
+      transform: none;
+      box-shadow: none;
+      border-color: var(--color-border);
+    }
+  }
 }
 
+.project-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// ─── Status Badge ────────────────────────────────────────────────
 .status {
-  &.active {
-    color: green;
+  flex-shrink: 0;
+  padding: 3px 9px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+
+  &--active {
+    color: var(--color-status-active);
+    background: var(--color-status-active-bg);
   }
 
-  &.archived {
-    color: gray;
+  &--archived {
+    color: var(--color-status-archived);
+    background: var(--color-status-archived-bg);
   }
 }
 
+// ─── Skeleton Loading ────────────────────────────────────────────
+.skeleton-line {
+  height: 14px;
+  border-radius: var(--radius-sm);
+  background: var(--color-border);
+  width: clamp(120px, 40%, 240px);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+// ─── Empty State ─────────────────────────────────────────────────
 .empty-state {
-  margin-top: 16px;
-  color: #666;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 64px 24px;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  animation: fadeUp var(--transition-slow) both;
+
+  &__icon {
+    font-size: 28px;
+    color: var(--color-text-muted);
+    margin-bottom: 4px;
+  }
+
+  &__title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin: 0;
+  }
+
+  &__hint {
+    font-size: 13px;
+    color: var(--color-text-muted);
+    margin: 0 0 16px;
+  }
+}
+
+// ─── Responsive ──────────────────────────────────────────────────
+@media (max-width: 480px) {
+  .dashboard__header {
+    padding: 0 16px;
+  }
+
+  .user-badge__name {
+    display: none;
+  }
+
+  .dashboard__content {
+    padding: 28px 16px 60px;
+  }
 }
