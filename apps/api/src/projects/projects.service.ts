@@ -36,4 +36,16 @@ export class ProjectsService {
       },
     });
   }
+
+  async deleteProject(id: string) {
+    const project = await this.getProjectById(id);
+    console.log(project);
+    
+    if (!project) {
+      throw new Error("Project not found");
+    }
+    return this.prisma.project.delete({
+      where: { id },
+    });
+  }
 }
