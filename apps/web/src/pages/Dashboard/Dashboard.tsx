@@ -2,65 +2,17 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Dashboard.scss";
 import { api } from "../../services/api";
-
-type Project = {
-  id: string;
-  name: string;
-  status?: "ACTIVE" | "ARCHIVED";
-};
-
-type ProjectsResponse = {
-  username: string;
-  projects: Project[];
-};
-
-const ProjectCard = ({
-  project,
-  onClick,
-}: {
-  project: Project;
-  onClick: () => void;
-}) => (
-  <li
-    className="project-card"
-    data-testid="project-item"
-    onClick={onClick}
-    role="button"
-    tabIndex={0}
-    onKeyDown={(e) => e.key === "Enter" && onClick()}
-  >
-    <div className="project-card__body">
-      <div className="project-card__icon" aria-hidden="true">
-        {project.name.charAt(0).toUpperCase()}
-      </div>
-      <span className="project-name">{project.name}</span>
-    </div>
-    {project.status && (
-      <span
-        className={`status status--${project.status.toLowerCase()}`}
-        data-testid="project-status"
-      >
-        {project.status.charAt(0) + project.status.slice(1).toLowerCase()}
-      </span>
-    )}
-    <span className="project-card__arrow" aria-hidden="true">→</span>
-  </li>
-);
-
-const SkeletonCard = () => (
-  <li className="project-card project-card--skeleton" aria-hidden="true">
-    <div className="project-card__body">
-      <div className="project-card__icon project-card__icon--skeleton" />
-      <div className="skeleton-line" />
-    </div>
-  </li>
-);
+import NewProjectModal from "../../components/NewProjectModal/NewProjectModal";
+import ProjectCard from "../../components/ProjectCard/ProjectCard";
+import { SkeletonCard } from "../../components/ProjectCard/ProjectCard";
+import { Project, ProjectsResponse } from "../../types/project";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("User");
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -87,6 +39,21 @@ const Dashboard = () => {
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     navigate("/login");
+  };
+
+  const handleProjectCreated = (project: Project) => {
+    setProjects((prev) => [project, ...prev]);
+  };
+
+  const handleDeleteProject = async (id: string) => {
+    try {
+      await api(`/projects/${id}`, {
+        method: "DELETE",
+      });
+      setProjects((prev) => prev.filter((project) => project.id !== id));
+    } catch (error) {
+      console.error("Error deleting project:", error);
+    }
   };
 
   const initials = username
@@ -143,7 +110,7 @@ const Dashboard = () => {
             <button
               className="create-project-btn"
               data-testid="create-project-button"
-              onClick={() => navigate("/projects/new")}
+              onClick={() => setIsModalOpen(true)}
             >
               <span aria-hidden="true">+</span> New Project
             </button>
@@ -184,12 +151,19 @@ const Dashboard = () => {
                   key={project.id}
                   project={project}
                   onClick={() => navigate(`/projects/${project.id}`)}
+                  onDelete={() => handleDeleteProject(project.id)}
                 />
               ))}
             </ul>
           )}
         </section>
       </main>
+
+      <NewProjectModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onCreated={handleProjectCreated}
+      />
     </div>
   );
 };
