@@ -1,0 +1,178 @@
+@use '../../styles/base';
+
+// ─── Shared input surface ─────────────────────────────────────────
+// Extracted as a mixin so input and textarea stay in sync visually.
+@mixin input-surface {
+  width: 100%;
+  font-size: 14px;
+  font-family: var(--font-sans);
+  color: var(--color-text-primary);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: border-color var(--transition), background var(--transition);
+
+  &::placeholder { color: var(--color-text-muted); }
+  &:hover:not(:disabled) { border-color: var(--color-border-hover); }
+  &:focus { border-color: var(--color-border-focus); background: var(--color-surface); }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+  &[aria-invalid="true"] { border-color: var(--color-error-border); }
+}
+
+// ─── Form ─────────────────────────────────────────────────────────
+.new-project-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  &__error {
+    margin: 0;
+    padding: 10px 12px;
+    background: var(--color-error-bg);
+    border: 1px solid var(--color-error-border);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    color: var(--color-error);
+    font-family: var(--font-sans);
+    animation: shake 250ms ease both;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding-top: 4px;
+  }
+}
+
+// ─── Form group ───────────────────────────────────────────────────
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    font-family: var(--font-sans);
+  }
+
+  &__required {
+    color: var(--color-error);
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  &__optional {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    letter-spacing: 0.02em;
+  }
+
+  // wrapper gives us a positioning context for the char counter
+  &__input-wrap {
+    position: relative;
+
+    input {
+      @include input-surface;
+      height: 40px;
+      padding: 0 44px 0 12px; // right pad for char count
+    }
+
+    // textarea variant — taller, scrollable, resize handle only vertical
+    &--textarea {
+      textarea {
+        @include input-surface;
+        padding: 10px 12px 24px; // bottom pad keeps text above char count
+        resize: vertical;
+        min-height: 84px;
+        max-height: 200px;
+        line-height: 1.5;
+      }
+    }
+  }
+
+  &__char-count {
+    position: absolute;
+    right: 10px;
+    bottom: 11px;
+    font-size: 11px;
+    color: var(--color-text-muted);
+    font-family: var(--font-sans);
+    pointer-events: none;
+    transition: color var(--transition);
+
+    // textarea counter sits at bottom-right inside the box
+    &--textarea {
+      bottom: 8px;
+    }
+  }
+}
+
+// ─── Buttons ─────────────────────────────────────────────────────
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    opacity var(--transition),
+    background var(--transition),
+    border-color var(--transition),
+    color var(--transition),
+    transform var(--transition);
+
+  &:active:not(:disabled) { transform: scale(0.98); }
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  &--primary {
+    background: var(--color-accent);
+    color: var(--color-bg);
+    &:hover:not(:disabled) { opacity: 0.85; }
+  }
+
+  &--ghost {
+    background: transparent;
+    color: var(--color-text-secondary);
+    border-color: var(--color-border);
+
+    &:hover:not(:disabled) {
+      background: var(--color-accent-soft);
+      color: var(--color-text-primary);
+      border-color: var(--color-border-hover);
+    }
+  }
+
+  &__spinner {
+    width: 12px;
+    height: 12px;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 600ms linear infinite;
+    flex-shrink: 0;
+  }
+}
+
+// ─── Animations ──────────────────────────────────────────────────
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-4px); }
+  40%       { transform: translateX(4px); }
+  60%       { transform: translateX(-3px); }
+  80%       { transform: translateX(3px); }
+}
