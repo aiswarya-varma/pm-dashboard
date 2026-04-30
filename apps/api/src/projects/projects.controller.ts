@@ -33,6 +33,7 @@ export class ProjectsController {
   ) {
     return this.projectsService.createProject(
       body.name,
+      body.description,
       req.user
     );
   }

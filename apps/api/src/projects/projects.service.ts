@@ -22,7 +22,7 @@ export class ProjectsService {
     });
   }
 
-  async createProject(name: string, user: any) {
+  async createProject(name: string, description: string | undefined, user: any) {
     if (user.role === "READONLY") {
       throw new ForbiddenException(
         "Read-only users cannot create projects"
@@ -32,6 +32,7 @@ export class ProjectsService {
     return this.prisma.project.create({
       data: {
         name,
+        description,
         createdById: user.userId,
       },
     });

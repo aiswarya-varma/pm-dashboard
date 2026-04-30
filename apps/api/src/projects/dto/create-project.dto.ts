@@ -3,6 +3,10 @@ import { IsNotEmpty, IsString, MaxLength } from "class-validator";
 export class CreateProjectDto {
   @IsString()
   @IsNotEmpty()
-  @MaxLength(100)
+  @MaxLength(80)
   name!: string;
+
+  @IsString()
+  @MaxLength(300)
+  description?: string;
 }
