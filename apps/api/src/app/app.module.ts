@@ -8,12 +8,14 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 import { ProjectsModule } from '../projects/projects.module';
+import { TasksModule } from '../tasks/tasks.module';
 
 @Module({
   imports: [
     PrismaModule, 
     AuthModule,
-    ProjectsModule
+    ProjectsModule,
+    TasksModule
   ],
   controllers: [AppController],
   providers: [
