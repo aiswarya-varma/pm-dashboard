@@ -74,6 +74,22 @@
             "buildTarget": "@org/api:build:production"
           }
         }
+      },
+      "migrate-dev": {
+        "executor": "nx:run-commands",
+        "options": {
+          "envFile": ".env",
+          "command": "npx prisma migrate dev --name {args.name} --schema ./prisma/schema.prisma",
+          "cwd": "apps/api"
+        }
+      },
+      "seed": {
+        "executor": "nx:run-commands",
+        "options": {
+          "envFile": ".env",
+          "command": "ts-node ./prisma/seed.ts",
+          "cwd": "apps/api"
+        }
       }
     }
   },

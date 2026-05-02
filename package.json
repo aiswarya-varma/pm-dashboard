@@ -5,8 +5,6 @@
   "scripts": {
     "postinstall": "prisma generate --schema=apps/api/prisma/schema.prisma",
     "prisma:generate": "prisma generate --schema=apps/api/prisma/schema.prisma",
-    "prisma:migrate": "prisma migrate dev --schema=apps/api/prisma/schema.prisma",
-    "prisma:seed": "ts-node apps/api/prisma/seed.ts",
     "serve:api": "nx serve api --output-style=stream"
   },
   "private": true,
@@ -30,7 +28,7 @@
     "@swc/cli": "~0.6.0",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
-    "@types/node": "20.19.9",
+    "@types/node": "^20.19.9",
     "@types/passport-jwt": "^4.0.1",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
