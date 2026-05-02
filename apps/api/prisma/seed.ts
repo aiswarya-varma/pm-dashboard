@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { PrismaClient, Role, TaskStatus } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -11,6 +12,7 @@ async function main() {
   const admin = await prisma.user.create({
     data: {
       email: 'admin@test.com',
+      name: 'Admin User',
       password: 'password123',
       role: Role.ADMIN,
     },
@@ -19,6 +21,7 @@ async function main() {
   const user1 = await prisma.user.create({
     data: {
       email: 'user1@test.com',
+      name: 'User One',
       password: 'password123',
       role: Role.USER,
     },
@@ -27,6 +30,7 @@ async function main() {
   const user2 = await prisma.user.create({
     data: {
       email: 'user2@test.com',
+      name: 'User Two',
       password: 'password123',
       role: Role.USER,
     },
