@@ -3,6 +3,7 @@ import { Login } from "../pages/Login/Login";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import ProtectedRoute from "./ProtectedRoute";
 import { Navigate } from "react-router-dom";
+import Project from "../pages/Project/Project";
 
 export default function AppRoutes() {
   return (
@@ -15,6 +16,15 @@ export default function AppRoutes() {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/projects/:projectId"
+          element={
+            <ProtectedRoute>
+              <Project />
             </ProtectedRoute>
           }
         />
